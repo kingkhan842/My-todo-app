@@ -1,5 +1,4 @@
-
-const input = document.getElementById("taskInput");
+ const input = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 
@@ -37,6 +36,24 @@ function addTask() {
     renderTasks();
 }
 
+function editTask(id) {
+    const task = tasks.find(task => task.id === id);
+
+    const newText = prompt("Edit your task:", task.text);
+
+    if (newText === null) return;
+
+    if (!newText.trim()) {
+        alert("Task cannot be empty!");
+        return;
+    }
+
+    task.text = newText.trim();
+
+    saveTasks();
+    renderTasks();
+}
+
 function toggleTask(id) {
     tasks = tasks.map(task =>
         task.id === id
@@ -64,14 +81,8 @@ function renderTasks() {
     taskList.innerHTML = "";
 
     const filteredTasks = tasks.filter(task => {
-        if (currentFilter === "pending") {
-            return !task.completed;
-        }
-
-        if (currentFilter === "completed") {
-            return task.completed;
-        }
-
+        if (currentFilter === "pending") return !task.completed;
+        if (currentFilter === "completed") return task.completed;
         return true;
     });
 
@@ -102,12 +113,16 @@ function renderTasks() {
         doneBtn.textContent = task.completed ? "Undo" : "Done";
         doneBtn.onclick = () => toggleTask(task.id);
 
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.onclick = () => editTask(task.id);
+
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
         deleteBtn.textContent = "Delete";
         deleteBtn.onclick = () => deleteTask(task.id);
 
-        li.append(span, doneBtn, deleteBtn);
+        li.append(span, doneBtn, editBtn, deleteBtn);
         taskList.appendChild(li);
     });
 }
@@ -115,9 +130,7 @@ function renderTasks() {
 addBtn.addEventListener("click", addTask);
 
 input.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-        addTask();
-    }
+    if (event.key === "Enter") addTask();
 });
 
 document.querySelectorAll(".filter").forEach(button => {
