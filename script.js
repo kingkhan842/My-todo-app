@@ -1,5 +1,4 @@
- ```javascript
-const input = document.getElementById("taskInput");
+ const input = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const searchInput = document.getElementById("searchInput");
@@ -23,7 +22,7 @@ function saveTasks() {
 function addTask() {
     const text = input.value.trim();
 
-    if (!text) {
+    if (text === "") {
         alert("Please enter a task!");
         return;
     }
@@ -37,10 +36,11 @@ function addTask() {
     input.value = "";
     saveTasks();
     renderTasks();
+    input.focus();
 }
 
 function editTask(id) {
-    const task = tasks.find(task => task.id === id);
+    const task = tasks.find(t => t.id === id);
 
     if (!task) return;
 
@@ -48,13 +48,12 @@ function editTask(id) {
 
     if (newText === null) return;
 
-    if (!newText.trim()) {
+    if (newText.trim() === "") {
         alert("Task cannot be empty!");
         return;
     }
 
     task.text = newText.trim();
-
     saveTasks();
     renderTasks();
 }
@@ -85,31 +84,32 @@ function clearCompleted() {
 function renderTasks() {
     taskList.innerHTML = "";
 
+    document.getElementById("total").textContent = tasks.length;
+
+    document.getElementById("pending").textContent =
+        tasks.filter(t => !t.completed).length;
+
+    document.getElementById("completed").textContent =
+        tasks.filter(t => t.completed).length;
+
     const filteredTasks = tasks.filter(task => {
-        const matchesFilter =
+        const filterMatch =
             currentFilter === "all" ||
             (currentFilter === "pending" && !task.completed) ||
             (currentFilter === "completed" && task.completed);
 
-        const matchesSearch =
+        const searchMatch =
             task.text.toLowerCase().includes(searchText.toLowerCase());
 
-        return matchesFilter && matchesSearch;
+        return filterMatch && searchMatch;
     });
-
-    document.getElementById("total").textContent = tasks.length;
-
-    document.getElementById("pending").textContent =
-        tasks.filter(task => !task.completed).length;
-
-    document.getElementById("completed").textContent =
-        tasks.filter(task => task.completed).length;
 
     if (filteredTasks.length === 0) {
         const empty = document.createElement("li");
         empty.className = "empty";
         empty.textContent = "No tasks found!";
         taskList.appendChild(empty);
+        return;
     }
 
     filteredTasks.forEach(task => {
@@ -141,8 +141,30 @@ function renderTasks() {
 addBtn.addEventListener("click", addTask);
 
 input.addEventListener("keydown", event => {
-    if (event.key === "Enter") addTask();
+    if (event.key === "Enter") {
+        addTask();
+    }
 });
 
 searchInput.addEventListener("input", () => {
-    searchText = searchInput.value.trim
+    searchText = searchInput.value.trim();
+    renderTasks();
+});
+
+document.querySelectorAll(".filter").forEach(button => {
+    button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+
+        document.querySelectorAll(".filter").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        renderTasks();
+    });
+});
+
+document.getElementById("clearBtn")
+    .addEventListener("click", clearCompleted);
+
+renderTasks();
