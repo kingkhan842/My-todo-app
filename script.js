@@ -1,9 +1,12 @@
- const input = document.getElementById("taskInput");
+ ```javascript
+const input = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
+const searchInput = document.getElementById("searchInput");
 
 let tasks = JSON.parse(localStorage.getItem("myTasks")) || [];
 let currentFilter = "all";
+let searchText = "";
 
 document.getElementById("today").textContent =
     new Date().toLocaleDateString("en-US", {
@@ -38,6 +41,8 @@ function addTask() {
 
 function editTask(id) {
     const task = tasks.find(task => task.id === id);
+
+    if (!task) return;
 
     const newText = prompt("Edit your task:", task.text);
 
@@ -81,9 +86,15 @@ function renderTasks() {
     taskList.innerHTML = "";
 
     const filteredTasks = tasks.filter(task => {
-        if (currentFilter === "pending") return !task.completed;
-        if (currentFilter === "completed") return task.completed;
-        return true;
+        const matchesFilter =
+            currentFilter === "all" ||
+            (currentFilter === "pending" && !task.completed) ||
+            (currentFilter === "completed" && task.completed);
+
+        const matchesSearch =
+            task.text.toLowerCase().includes(searchText.toLowerCase());
+
+        return matchesFilter && matchesSearch;
     });
 
     document.getElementById("total").textContent = tasks.length;
@@ -97,7 +108,7 @@ function renderTasks() {
     if (filteredTasks.length === 0) {
         const empty = document.createElement("li");
         empty.className = "empty";
-        empty.textContent = "No tasks found. Add a new task!";
+        empty.textContent = "No tasks found!";
         taskList.appendChild(empty);
     }
 
@@ -133,20 +144,5 @@ input.addEventListener("keydown", event => {
     if (event.key === "Enter") addTask();
 });
 
-document.querySelectorAll(".filter").forEach(button => {
-    button.addEventListener("click", () => {
-        currentFilter = button.dataset.filter;
-
-        document.querySelectorAll(".filter").forEach(btn => {
-            btn.classList.remove("active");
-        });
-
-        button.classList.add("active");
-        renderTasks();
-    });
-});
-
-document.getElementById("clearBtn")
-    .addEventListener("click", clearCompleted);
-
-renderTasks();
+searchInput.addEventListener("input", () => {
+    searchText = searchInput.value.trim

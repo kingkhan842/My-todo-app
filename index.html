@@ -1,4 +1,4 @@
- 
+ ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +10,7 @@
 <body>
 
     <div class="container">
+
         <header>
             <h1>My To-Do List</h1>
             <p id="today"></p>
@@ -21,10 +22,12 @@
                 <h2 id="total">0</h2>
                 <p>Total Tasks</p>
             </div>
+
             <div class="stat">
                 <h2 id="pending">0</h2>
                 <p>Pending</p>
             </div>
+
             <div class="stat">
                 <h2 id="completed">0</h2>
                 <p>Completed</p>
@@ -32,8 +35,11 @@
         </div>
 
         <div class="input-area">
-            <input id="taskInput" type="text"
-                placeholder="What needs to be done?">
+            <input
+                id="taskInput"
+                type="text"
+                placeholder="What needs to be done?"
+            >
             <button id="addBtn">+ Add Task</button>
         </div>
 
@@ -41,6 +47,15 @@
             <button class="filter active" data-filter="all">All</button>
             <button class="filter" data-filter="pending">Pending</button>
             <button class="filter" data-filter="completed">Completed</button>
+        </div>
+
+        <!-- Search Task -->
+        <div class="search-area">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search your tasks..."
+            >
         </div>
 
         <ul id="taskList"></ul>
@@ -52,8 +67,11 @@
         <footer>
             Created by Faizan Khan ❤️
         </footer>
+
     </div>
 
     <script src="script.js"></script>
+
 </body>
 </html>
+```
