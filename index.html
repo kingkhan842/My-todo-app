@@ -1,65 +1,94 @@
- <!DOCTYPE html>
+ 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My To-Do App</title>
+    <title>TaskFlow Pro | Faizan Khan</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="app">
+        <header class="header">
+            <div>
+                <h1>TaskFlow <span>Pro.</span></h1>
+                <p>Organize your day. Achieve your goals.</p>
+            </div>
+            <button id="themeBtn" class="theme-btn">🌙 Dark</button>
+        </header>
 
-<div class="container">
+        <section class="welcome">
+            <p id="today"></p>
+            <h2>Manage your tasks 🚀</h2>
+            <p>Small steps every day lead to big results.</p>
+        </section>
 
-    <header>
-        <h1>My To-Do List</h1>
-        <p id="today"></p>
-        <p>Organize your day, one task at a time.</p>
-    </header>
+        <section class="stats">
+            <div class="stat-card"><p>Total Tasks</p><h2 id="total">0</h2></div>
+            <div class="stat-card"><p>Pending</p><h2 id="pending">0</h2></div>
+            <div class="stat-card"><p>Completed</p><h2 id="completed">0</h2></div>
+            <div class="stat-card"><p>Overdue</p><h2 id="overdue">0</h2></div>
+        </section>
 
-    <div class="stats">
-        <div class="stat">
-            <h2 id="total">0</h2>
-            <p>Total Tasks</p>
-        </div>
-        <div class="stat">
-            <h2 id="pending">0</h2>
-            <p>Pending</p>
-        </div>
-        <div class="stat">
-            <h2 id="completed">0</h2>
-            <p>Completed</p>
-        </div>
+        <section class="progress-card">
+            <div class="progress-heading">
+                <h3>Your Progress</h3>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-track">
+                <div id="progressBar"></div>
+            </div>
+        </section>
+
+        <section class="task-form">
+            <h3 id="formTitle">Add a New Task</h3>
+            <input type="text" id="taskInput" placeholder="What do you need to do?">
+
+            <div class="form-row">
+                <input type="date" id="dueDate">
+                <select id="priority">
+                    <option value="Medium">Medium Priority</option>
+                    <option value="High">High Priority</option>
+                    <option value="Low">Low Priority</option>
+                </select>
+                <select id="category">
+                    <option value="Study">Study</option>
+                    <option value="Work">Work</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button id="addBtn">+ Add Task</button>
+                <button id="cancelEdit" class="cancel-btn hidden">Cancel Edit</button>
+            </div>
+        </section>
+
+        <section class="task-section">
+            <div class="task-heading">
+                <h3>My Tasks</h3>
+                <input type="search" id="searchInput" placeholder="🔍 Search tasks...">
+            </div>
+
+            <div class="filters">
+                <button class="filter active" data-filter="all">All</button>
+                <button class="filter" data-filter="pending">Pending</button>
+                <button class="filter" data-filter="completed">Completed</button>
+                <button class="filter" data-filter="overdue">Overdue</button>
+            </div>
+
+            <ul id="taskList"></ul>
+            <button id="clearBtn" class="clear-btn">Clear Completed Tasks</button>
+        </section>
+
+        <footer>
+            <h3>TaskFlow Pro</h3>
+            <p>Created with ❤️ by <strong>Faizan Khan</strong></p>
+            <p>© 2026 All Rights Reserved.</p>
+        </footer>
     </div>
 
-    <div class="input-area">
-        <input id="taskInput" type="text"
-            placeholder="What needs to be done?">
-        <button type="button" id="addBtn">+ Add Task</button>
-    </div>
-
-    <div class="filters">
-        <button type="button" class="filter active" data-filter="all">All</button>
-        <button type="button" class="filter" data-filter="pending">Pending</button>
-        <button type="button" class="filter" data-filter="completed">Completed</button>
-    </div>
-
-    <div class="search-area">
-        <input id="searchInput" type="text"
-            placeholder="🔍 Search your tasks...">
-    </div>
-
-    <ul id="taskList"></ul>
-
-    <button type="button" id="clearBtn" class="clear-btn">
-        Clear Completed Tasks
-    </button>
-
-    <footer>
-        Created by Faizan Khan ❤️
-    </footer>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
